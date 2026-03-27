@@ -1,20 +1,15 @@
 package com.gtbyte.jorgeLanza
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import com.gtbyte.jorgeLanza.navigation.AppNavGraph
-import com.gtbyte.jorgeLanza.ui.theme.ByteAplicationTheme
+import com.gtbyte.jorgeLanza.auth.LoginActivity
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            ByteAplicationTheme {
-                AppNavGraph()
-            }
-        }
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

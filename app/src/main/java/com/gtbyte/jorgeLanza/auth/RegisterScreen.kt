@@ -1,6 +1,7 @@
-package com.gtbyte.jorgeLanza.resgister
+package com.gtbyte.jorgeLanza.auth
 
 import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.gtbyte.jorgeLanza.R
 import com.gtbyte.jorgeLanza.components.CustomInputLabelComponent
+import com.gtbyte.jorgeLanza.home.HomeActivity
 
 @Composable
 fun RegisterScreen(navController: NavController) {
@@ -119,6 +121,9 @@ fun RegisterScreen(navController: NavController) {
         Button(
             onClick = {
                 SaveUser(context, username, password)
+                val intent = Intent(context, HomeActivity::class.java)
+                intent.putExtra("username", username)
+                context.startActivity(intent)
             },
             enabled = buttonEnabled,
             modifier = Modifier.fillMaxWidth()

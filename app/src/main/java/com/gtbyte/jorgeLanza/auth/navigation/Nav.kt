@@ -1,11 +1,11 @@
-package com.gtbyte.jorgeLanza.navigation
+package com.gtbyte.jorgeLanza.auth.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.gtbyte.jorgeLanza.login.LoginScreen
-import com.gtbyte.jorgeLanza.resgister.RegisterScreen
+import com.gtbyte.jorgeLanza.auth.LoginScreen
+import com.gtbyte.jorgeLanza.auth.RegisterScreen
 
 @Composable
 fun AppNavGraph() {

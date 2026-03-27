@@ -1,7 +1,7 @@
-package com.gtbyte.jorgeLanza.login
+package com.gtbyte.jorgeLanza.auth
 
 import android.content.Context
-import android.util.Log
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.gtbyte.jorgeLanza.R
 import com.gtbyte.jorgeLanza.components.CustomInputLabelComponent
+import com.gtbyte.jorgeLanza.home.HomeActivity
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -42,7 +43,8 @@ fun LoginScreen(navController: NavController) {
     var password by remember { mutableStateOf("") }
     var logginHasError by remember { mutableStateOf(false) }
 
-    val sharedPreferences = LocalContext.current.getSharedPreferences("byteJorge", Context.MODE_PRIVATE)
+    val context = LocalContext.current
+    val sharedPreferences = context.getSharedPreferences("byteJorge", Context.MODE_PRIVATE)
     val credentials = sharedPreferences.getString(username, null) ?: ""
 
 
@@ -110,7 +112,11 @@ fun LoginScreen(navController: NavController) {
             enabled = username != "" && password != "",
             onClick = {
                 logginHasError = checkCredentials(credentials, username, password)
-
+                if(!logginHasError){
+                    val intent = Intent(context, HomeActivity::class.java)
+                    intent.putExtra("username", username)
+                    context.startActivity(intent)
+                }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
