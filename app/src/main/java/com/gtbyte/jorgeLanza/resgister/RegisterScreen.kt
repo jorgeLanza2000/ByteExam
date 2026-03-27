@@ -1,5 +1,6 @@
 package com.gtbyte.jorgeLanza.resgister
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -44,6 +46,9 @@ fun RegisterScreen(navController: NavController) {
     val invalidPassword = (password.length < 6 || !password.matches(Regex(".*[A-Z].*"))) && password != ""
     val invalidPasswordMessage = if(!password.matches(Regex(".*[A-Z].*"))) "Debe contener al menos una letra Mayúscula." else "Debe contener al menos 6 caracteres"
     val invalidPasswordConfirm = password != passwordConfirm && password != "" && passwordConfirm != ""
+    val buttonEnabled = !usernameHasError && !invalidPassword && !invalidPasswordConfirm && username != "" && password != "" && passwordConfirm != ""
+
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -89,7 +94,7 @@ fun RegisterScreen(navController: NavController) {
             errorText = invalidPasswordMessage,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Next
             ),
             onvValueChange = {password = it}
         )
@@ -104,7 +109,7 @@ fun RegisterScreen(navController: NavController) {
             errorText = "Las contraseñas no coinciden",
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Next
             ),
             onvValueChange = {passwordConfirm = it}
         )
@@ -113,8 +118,9 @@ fun RegisterScreen(navController: NavController) {
 
         Button(
             onClick = {
-                navController.navigate("register")
+                SaveUser(context, username, password)
             },
+            enabled = buttonEnabled,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Registrarse")
@@ -136,4 +142,9 @@ fun RegisterScreen(navController: NavController) {
             )
         }
     }
+}
+
+fun SaveUser(context: Context, username: String, password: String){
+    val sharedPreferences = context.getSharedPreferences("byteJorge", Context.MODE_PRIVATE)
+    sharedPreferences.edit().putString(username, "$username:$password").apply()
 }
