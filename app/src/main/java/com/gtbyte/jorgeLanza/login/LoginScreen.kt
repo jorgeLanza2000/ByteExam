@@ -1,6 +1,7 @@
 package com.gtbyte.jorgeLanza.login
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +31,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.gtbyte.jorgeLanza.R
 import com.gtbyte.jorgeLanza.components.CustomInputLabelComponent
@@ -38,8 +40,12 @@ import com.gtbyte.jorgeLanza.components.CustomInputLabelComponent
 fun LoginScreen(navController: NavController) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var logginHasError by remember { mutableStateOf(false) }
+
     val sharedPreferences = LocalContext.current.getSharedPreferences("byteJorge", Context.MODE_PRIVATE)
-    //val usuario = sharedPreferences.getString(username, null) ?: ""
+    val credentials = sharedPreferences.getString(username, null) ?: ""
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -53,18 +59,32 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.size(200.dp)
         )
 
-        Spacer(modifier = Modifier.height(70.dp))
+        if(logginHasError){
+            Spacer(modifier = Modifier.height(35.dp))
+            Text(
+                text = "Usuario/Clave inválida",
+                fontSize = 15.sp,
+                color = MaterialTheme.colorScheme.error
+
+            )
+            Spacer(modifier = Modifier.height(15.dp))
+        } else {
+            Spacer(modifier = Modifier.height(70.dp))
+        }
 
         CustomInputLabelComponent(
             label = "Usuario",
             placeholder = "Ingresa tu usuario",
             value = username,
-            hasError = false,
+            hasError = logginHasError,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
             ),
-            onvValueChange = {username = it}
+            onvValueChange = {
+                username = it
+                logginHasError = false
+            }
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -73,19 +93,24 @@ fun LoginScreen(navController: NavController) {
             label = "Contraseña",
             placeholder = "Ingresa tu contraseña",
             value = password,
-            hasError = false,
+            hasError = logginHasError,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Next
             ),
-            onvValueChange = {password = it}
+            onvValueChange = {
+                password = it
+                logginHasError = false
+            }
         )
 
         Spacer(modifier = Modifier.height(40.dp))
 
         Button(
+            enabled = username != "" && password != "",
             onClick = {
-                navController.navigate("register")
+                logginHasError = checkCredentials(credentials, username, password)
+
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -107,4 +132,9 @@ fun LoginScreen(navController: NavController) {
             )
         }
     }
+}
+
+fun checkCredentials(credentials: String, user: String, password: String): Boolean {
+    val credentialsArray = credentials.split(":")
+    return credentialsArray[0] != user || credentialsArray[1] != password
 }

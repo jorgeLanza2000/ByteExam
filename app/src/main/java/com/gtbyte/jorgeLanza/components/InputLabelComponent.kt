@@ -46,7 +46,8 @@ fun CustomInputLabelComponent(
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = MaterialTheme.colorScheme.primary,
                 unfocusedTextColor = MaterialTheme.colorScheme.primary,
-                unfocusedPlaceholderColor = MaterialTheme.colorScheme.secondary
+                unfocusedPlaceholderColor = MaterialTheme.colorScheme.secondary,
+                errorTextColor = MaterialTheme.colorScheme.error
             ),
             keyboardOptions = keyboardOptions,
             visualTransformation = if (isPassword)
