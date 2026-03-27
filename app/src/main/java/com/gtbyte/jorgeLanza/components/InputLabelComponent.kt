@@ -22,6 +22,8 @@ fun CustomInputLabelComponent(
     label: String,
     placeholder: String,
     value: String,
+    hasError: Boolean,
+    errorText: String = "",
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onvValueChange: (String) -> Unit
 ){
@@ -31,13 +33,15 @@ fun CustomInputLabelComponent(
     ){
         Text(text = label)
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(5.dp))
 
         OutlinedTextField(
             value = value,
             onValueChange = onvValueChange,
             singleLine = true,
             placeholder = { Text(placeholder) },
+            isError = hasError,
+            supportingText = { if (hasError) Text(errorText) else null },
             shape = RoundedCornerShape(size = 40.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = MaterialTheme.colorScheme.primary,

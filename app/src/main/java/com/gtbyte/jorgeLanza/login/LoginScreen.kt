@@ -55,6 +55,7 @@ fun LoginScreen(navController: NavController) {
             label = "Usuario",
             placeholder = "Ingresa tu usuario",
             value = username,
+            hasError = false,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
@@ -68,6 +69,7 @@ fun LoginScreen(navController: NavController) {
             label = "Contraseña",
             placeholder = "Ingresa tu contraseña",
             value = password,
+            hasError = false,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done

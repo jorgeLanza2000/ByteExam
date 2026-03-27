@@ -39,6 +39,11 @@ fun RegisterScreen(navController: NavController) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
+
+    val usernameHasError = username.length < 8 && username != ""
+    val invalidPassword = (password.length < 6 || !password.matches(Regex(".*[A-Z].*"))) && password != ""
+    val invalidPasswordMessage = if(!password.matches(Regex(".*[A-Z].*"))) "Debe contener al menos una letra Mayúscula." else "Debe contener al menos 6 caracteres"
+    val invalidPasswordConfirm = password != passwordConfirm && password != "" && passwordConfirm != ""
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -65,6 +70,8 @@ fun RegisterScreen(navController: NavController) {
             label = "Usuario",
             placeholder = "Ingresa un usuario",
             value = username,
+            hasError = usernameHasError,
+            errorText = "*Debe contener al menos 8 caracteres",
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
@@ -72,12 +79,14 @@ fun RegisterScreen(navController: NavController) {
             onvValueChange = {username = it}
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(5.dp))
 
         CustomInputLabelComponent(
             label = "Contraseña",
             placeholder = "Ingresa una contraseña",
             value = password,
+            hasError = invalidPassword,
+            errorText = invalidPasswordMessage,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
@@ -85,12 +94,14 @@ fun RegisterScreen(navController: NavController) {
             onvValueChange = {password = it}
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         CustomInputLabelComponent(
             label = "Confirmar contraseña",
             placeholder = "Ingrese de nuevo la contraseña",
             value = passwordConfirm,
+            hasError = invalidPasswordConfirm,
+            errorText = "Las contraseñas no coinciden",
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
@@ -98,7 +109,7 @@ fun RegisterScreen(navController: NavController) {
             onvValueChange = {passwordConfirm = it}
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Button(
             onClick = {
@@ -108,6 +119,7 @@ fun RegisterScreen(navController: NavController) {
         ) {
             Text("Registrarse")
         }
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Start
