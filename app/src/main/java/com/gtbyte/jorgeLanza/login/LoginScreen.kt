@@ -1,8 +1,11 @@
 package com.gtbyte.jorgeLanza.login
 
+import android.content.Context
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,9 +23,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.gtbyte.jorgeLanza.R
@@ -31,6 +38,8 @@ import com.gtbyte.jorgeLanza.components.CustomInputLabelComponent
 fun LoginScreen(navController: NavController) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val sharedPreferences = LocalContext.current.getSharedPreferences("byteJorge", Context.MODE_PRIVATE)
+    //val usuario = sharedPreferences.getString(username, null) ?: ""
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -50,6 +59,7 @@ fun LoginScreen(navController: NavController) {
             label = "Usuario",
             placeholder = "Ingresa tu usuario",
             value = username,
+            hasError = false,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
@@ -63,6 +73,7 @@ fun LoginScreen(navController: NavController) {
             label = "Contraseña",
             placeholder = "Ingresa tu contraseña",
             value = password,
+            hasError = false,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
@@ -79,6 +90,21 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Ingresar")
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
+            Text(
+                text = "Registrarme",
+                style = TextStyle(
+                    textDecoration = TextDecoration.Underline,
+                    color = MaterialTheme.colorScheme.primary
+                ),
+                modifier = Modifier
+                    .clickable {  navController.navigate("register") }
+                    .padding(8.dp)
+            )
         }
     }
 }
