@@ -1,4 +1,4 @@
-package com.gtbyte.jorgeLanza.auth
+package com.gtbyte.jorgeLanza.auth.presentation.login
 
 import android.content.Context
 import android.content.Intent
@@ -34,14 +34,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.gtbyte.jorgeLanza.R
-import com.gtbyte.jorgeLanza.components.CustomInputLabelComponent
+import com.gtbyte.jorgeLanza.auth.presentation.common.components.CustomInputLabelComponent
 import com.gtbyte.jorgeLanza.home.HomeActivity
 
 @Composable
 fun LoginScreen(navController: NavController) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var logginHasError by remember { mutableStateOf(false) }
+    var loginHasError by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
     val sharedPreferences = context.getSharedPreferences("byteJorge", Context.MODE_PRIVATE)
@@ -61,7 +61,7 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.size(200.dp)
         )
 
-        if(logginHasError){
+        if(loginHasError){
             Spacer(modifier = Modifier.height(35.dp))
             Text(
                 text = "Usuario/Clave inválida",
@@ -78,14 +78,14 @@ fun LoginScreen(navController: NavController) {
             label = "Usuario",
             placeholder = "Ingresa tu usuario",
             value = username,
-            hasError = logginHasError,
+            hasError = loginHasError,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
             ),
             onvValueChange = {
                 username = it
-                logginHasError = false
+                loginHasError = false
             }
         )
 
@@ -95,14 +95,14 @@ fun LoginScreen(navController: NavController) {
             label = "Contraseña",
             placeholder = "Ingresa tu contraseña",
             value = password,
-            hasError = logginHasError,
+            hasError = loginHasError,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Next
             ),
             onvValueChange = {
                 password = it
-                logginHasError = false
+                loginHasError = false
             }
         )
 
@@ -111,10 +111,10 @@ fun LoginScreen(navController: NavController) {
         Button(
             enabled = username != "" && password != "",
             onClick = {
-                logginHasError = checkCredentials(credentials, username, password)
-                if(!logginHasError){
+                loginHasError = checkCredentials(credentials, username, password)
+                if(!loginHasError){
                     val intent = Intent(context, HomeActivity::class.java)
-                    intent.putExtra("username", username)
+                    intent.putExtra("USERNAME", username)
                     context.startActivity(intent)
                 }
             },
@@ -127,7 +127,7 @@ fun LoginScreen(navController: NavController) {
             horizontalArrangement = Arrangement.End
         ) {
             Text(
-                text = "Registrarme",
+                text = "Crear usuario",
                 style = TextStyle(
                     textDecoration = TextDecoration.Underline,
                     color = MaterialTheme.colorScheme.primary

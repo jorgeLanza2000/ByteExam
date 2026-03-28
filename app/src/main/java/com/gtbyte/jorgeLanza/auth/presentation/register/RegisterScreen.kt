@@ -1,4 +1,4 @@
-package com.gtbyte.jorgeLanza.auth
+package com.gtbyte.jorgeLanza.auth.presentation.register
 
 import android.content.Context
 import android.content.Intent
@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.gtbyte.jorgeLanza.R
-import com.gtbyte.jorgeLanza.components.CustomInputLabelComponent
+import com.gtbyte.jorgeLanza.auth.presentation.common.components.CustomInputLabelComponent
 import com.gtbyte.jorgeLanza.home.HomeActivity
 
 @Composable
@@ -120,7 +120,7 @@ fun RegisterScreen(navController: NavController) {
 
         Button(
             onClick = {
-                SaveUser(context, username, password)
+                saveUser(context, username, password)
                 val intent = Intent(context, HomeActivity::class.java)
                 intent.putExtra("username", username)
                 context.startActivity(intent)
@@ -149,7 +149,7 @@ fun RegisterScreen(navController: NavController) {
     }
 }
 
-fun SaveUser(context: Context, username: String, password: String){
+fun saveUser(context: Context, username: String, password: String){
     val sharedPreferences = context.getSharedPreferences("byteJorge", Context.MODE_PRIVATE)
     sharedPreferences.edit().putString(username, "$username:$password").apply()
 }

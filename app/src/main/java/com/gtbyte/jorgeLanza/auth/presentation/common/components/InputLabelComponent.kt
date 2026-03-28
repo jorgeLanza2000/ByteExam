@@ -1,4 +1,4 @@
-package com.gtbyte.jorgeLanza.components
+package com.gtbyte.jorgeLanza.auth.presentation.common.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -41,7 +41,7 @@ fun CustomInputLabelComponent(
             singleLine = true,
             placeholder = { Text(placeholder) },
             isError = hasError,
-            supportingText = { if (hasError) Text(errorText) else null },
+            supportingText = { if (hasError) Text(errorText)},
             shape = RoundedCornerShape(size = 40.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = MaterialTheme.colorScheme.primary,
