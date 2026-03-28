@@ -1,7 +1,6 @@
 package com.gtbyte.jorgeLanza.auth.presentation.login
 
 import android.content.Context
-import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,8 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.gtbyte.jorgeLanza.R
+import com.gtbyte.jorgeLanza.auth.domain.navigateHomeWithUsername
 import com.gtbyte.jorgeLanza.auth.presentation.common.components.CustomInputLabelComponent
-import com.gtbyte.jorgeLanza.home.HomeActivity
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -56,7 +55,7 @@ fun LoginScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.logo),
+            painter = painterResource(id = R.drawable.ic_logo),
             contentDescription = "Logo",
             modifier = Modifier.size(200.dp)
         )
@@ -113,9 +112,7 @@ fun LoginScreen(navController: NavController) {
             onClick = {
                 loginHasError = checkCredentials(credentials, username, password)
                 if(!loginHasError){
-                    val intent = Intent(context, HomeActivity::class.java)
-                    intent.putExtra("USERNAME", username)
-                    context.startActivity(intent)
+                    navigateHomeWithUsername(context, username)
                 }
             },
             modifier = Modifier.fillMaxWidth()

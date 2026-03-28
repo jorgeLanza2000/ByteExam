@@ -1,7 +1,6 @@
 package com.gtbyte.jorgeLanza.auth.presentation.register
 
 import android.content.Context
-import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,8 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.gtbyte.jorgeLanza.R
+import com.gtbyte.jorgeLanza.auth.domain.navigateHomeWithUsername
 import com.gtbyte.jorgeLanza.auth.presentation.common.components.CustomInputLabelComponent
-import com.gtbyte.jorgeLanza.home.HomeActivity
 
 @Composable
 fun RegisterScreen(navController: NavController) {
@@ -59,7 +58,7 @@ fun RegisterScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.logo),
+            painter = painterResource(id = R.drawable.ic_logo),
             contentDescription = "Logo",
             modifier = Modifier.size(200.dp)
         )
@@ -121,9 +120,7 @@ fun RegisterScreen(navController: NavController) {
         Button(
             onClick = {
                 saveUser(context, username, password)
-                val intent = Intent(context, HomeActivity::class.java)
-                intent.putExtra("username", username)
-                context.startActivity(intent)
+                navigateHomeWithUsername(context, username)
             },
             enabled = buttonEnabled,
             modifier = Modifier.fillMaxWidth()
