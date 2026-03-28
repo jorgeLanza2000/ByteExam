@@ -63,7 +63,9 @@ class DonutAdapter : RecyclerView.Adapter<DonutAdapter.ViewHolder>() {
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvName: TextView = view.findViewById(R.id.tvName)
+        val tvTitle: TextView = view.findViewById(R.id.tvTitle)
+        val tvSubtitle: TextView = view.findViewById(R.id.tvSubtitle)
+        val tvPPU: TextView = view.findViewById(R.id.tvPPU)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -74,7 +76,9 @@ class DonutAdapter : RecyclerView.Adapter<DonutAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val donut = items[position]
-        holder.tvName.text = donut.name // ajusta según tu modelo
+        holder.tvTitle.text = donut.name
+        holder.tvSubtitle.text = holder.itemView.context.getString(R.string.donut_label_tipo, donut.type)
+        holder.tvPPU.text = holder.itemView.context.getString(R.string.donut_label_ppu, donut.ppu)
     }
 
     override fun getItemCount() = items.size
