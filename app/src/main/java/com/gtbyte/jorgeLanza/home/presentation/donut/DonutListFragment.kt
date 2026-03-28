@@ -24,6 +24,17 @@ class DonutListFragment : Fragment(R.layout.fragment_donut_list) {
         val recycler = view.findViewById<RecyclerView>(R.id.recyclerDonuts)
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
+        recycler.layoutManager = LinearLayoutManager(requireContext())
+        recycler.adapter = adapter
+
+        viewModel.donuts.observe(viewLifecycleOwner) { donuts ->
+            adapter.submitList(donuts)
+        }
+
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
         adapter = DonutAdapter(fun(donut: DonutDto) {
             val fragment = DonutDetailFragment.newInstance(donut)
 
@@ -34,18 +45,5 @@ class DonutListFragment : Fragment(R.layout.fragment_donut_list) {
                 .addToBackStack(null)
                 .commit()
         })
-
-        recycler.layoutManager = LinearLayoutManager(requireContext())
-        recycler.adapter = adapter
-
-        // 👀 Observar datos
-        viewModel.donuts.observe(viewLifecycleOwner) { donuts ->
-            adapter.submitList(donuts)
-        }
-
-        // 👀 Observar loading
-        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
-            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        }
     }
 }
