@@ -1,0 +1,42 @@
+package com.gtbyte.jorgeLanza.home.components
+
+import android.os.Bundle
+import android.view.View
+import android.widget.ProgressBar
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.gtbyte.jorgeLanza.R
+import com.gtbyte.jorgeLanza.home.api.DonutAdapter
+import com.gtbyte.jorgeLanza.home.api.HomeViewModel
+
+
+class DonutListFragment : Fragment(R.layout.fragment_donut_list) {
+
+    private val viewModel: HomeViewModel by activityViewModels()
+
+    private lateinit var adapter: DonutAdapter
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val recycler = view.findViewById<RecyclerView>(R.id.recyclerDonuts)
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+
+        adapter = DonutAdapter()
+
+        recycler.layoutManager = LinearLayoutManager(requireContext())
+        recycler.adapter = adapter
+
+        // 👀 Observar datos
+        viewModel.donuts.observe(viewLifecycleOwner) { donuts ->
+            adapter.submitList(donuts)
+        }
+
+        // 👀 Observar loading
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+    }
+}
