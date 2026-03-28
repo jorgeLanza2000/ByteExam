@@ -3,7 +3,6 @@ package com.gtbyte.jorgeLanza.home.components
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
