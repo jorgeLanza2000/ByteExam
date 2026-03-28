@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.gtbyte.jorgeLanza.R
+import com.gtbyte.jorgeLanza.auth.domain.navigateHomeWithUsername
 import com.gtbyte.jorgeLanza.auth.presentation.common.components.CustomInputLabelComponent
 import com.gtbyte.jorgeLanza.home.HomeActivity
 
@@ -121,9 +122,7 @@ fun RegisterScreen(navController: NavController) {
         Button(
             onClick = {
                 saveUser(context, username, password)
-                val intent = Intent(context, HomeActivity::class.java)
-                intent.putExtra("username", username)
-                context.startActivity(intent)
+                navigateHomeWithUsername(context, username)
             },
             enabled = buttonEnabled,
             modifier = Modifier.fillMaxWidth()
