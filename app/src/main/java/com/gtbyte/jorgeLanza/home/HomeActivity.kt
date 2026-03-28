@@ -10,8 +10,8 @@ import androidx.fragment.app.commit
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.gtbyte.jorgeLanza.R
 import com.gtbyte.jorgeLanza.auth.LoginActivity
-import com.gtbyte.jorgeLanza.home.api.HomeViewModel
-import com.gtbyte.jorgeLanza.home.components.DonutListFragment
+import com.gtbyte.jorgeLanza.home.presentation.donut.DonutListFragment
+import com.gtbyte.jorgeLanza.home.presentation.HomeViewModel
 
 
 class HomeActivity : AppCompatActivity() {

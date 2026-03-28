@@ -1,4 +1,4 @@
-package com.gtbyte.jorgeLanza.home.components
+package com.gtbyte.jorgeLanza.home.presentation.donut
 
 import android.os.Bundle
 import android.view.View
@@ -8,9 +8,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gtbyte.jorgeLanza.R
-import com.gtbyte.jorgeLanza.home.api.DonutAdapter
-import com.gtbyte.jorgeLanza.home.api.HomeViewModel
-
+import com.gtbyte.jorgeLanza.home.data.remote.dto.DonutDto
+import com.gtbyte.jorgeLanza.home.presentation.HomeViewModel
+import com.gtbyte.jorgeLanza.home.presentation.donut.adapter.DonutAdapter
 
 class DonutListFragment : Fragment(R.layout.fragment_donut_list) {
 
@@ -24,9 +24,8 @@ class DonutListFragment : Fragment(R.layout.fragment_donut_list) {
         val recycler = view.findViewById<RecyclerView>(R.id.recyclerDonuts)
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
-        adapter = DonutAdapter({donut ->
-
-            val fragment = DonutDetailFragment.newInstance(donut)
+        adapter = DonutAdapter(fun(donut: DonutDto) {
+            val fragment = DonutDetailFragment.Companion.newInstance(donut)
 
             requireActivity()
                 .supportFragmentManager

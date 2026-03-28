@@ -1,4 +1,4 @@
-package com.gtbyte.jorgeLanza.home.components
+package com.gtbyte.jorgeLanza.home.presentation.donut
 
 import android.os.Bundle
 import android.view.View
@@ -7,8 +7,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.gtbyte.jorgeLanza.R
-import com.gtbyte.jorgeLanza.home.api.DonutDb
-
+import com.gtbyte.jorgeLanza.home.data.remote.dto.DonutDto
 
 class DonutDetailFragment : Fragment(R.layout.fragment_donut_detail) {
 
@@ -48,7 +47,7 @@ class DonutDetailFragment : Fragment(R.layout.fragment_donut_detail) {
     }
 
     companion object {
-        fun newInstance(donut: DonutDb): DonutDetailFragment {
+        fun newInstance(donut: DonutDto): DonutDetailFragment {
             val fragment = DonutDetailFragment()
             val bundle = Bundle()
 

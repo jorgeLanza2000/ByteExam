@@ -1,4 +1,4 @@
-package com.gtbyte.jorgeLanza.auth
+package com.gtbyte.jorgeLanza.auth.presentation.register
 
 import android.content.Context
 import android.content.Intent
@@ -34,20 +34,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.gtbyte.jorgeLanza.R
-import com.gtbyte.jorgeLanza.components.CustomInputLabelComponent
+import com.gtbyte.jorgeLanza.auth.presentation.common.components.CustomInputLabelComponent
 import com.gtbyte.jorgeLanza.home.HomeActivity
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun RegisterScreen(navController: NavController) {
+
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var logginHasError by remember { mutableStateOf(false) }
+    var passwordConfirm by remember { mutableStateOf("") }
+
+    val usernameHasError = username.length < 8 && username != ""
+    val invalidPassword = (password.length < 6 || !password.matches(Regex(".*[A-Z].*"))) && password != ""
+    val invalidPasswordMessage = if(!password.matches(Regex(".*[A-Z].*"))) "Debe contener al menos una letra Mayúscula." else "Debe contener al menos 6 caracteres"
+    val invalidPasswordConfirm = password != passwordConfirm && password != "" && passwordConfirm != ""
+    val buttonEnabled = !usernameHasError && !invalidPassword && !invalidPasswordConfirm && username != "" && password != "" && passwordConfirm != ""
 
     val context = LocalContext.current
-    val sharedPreferences = context.getSharedPreferences("byteJorge", Context.MODE_PRIVATE)
-    val credentials = sharedPreferences.getString(username, null) ?: ""
-
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,86 +64,92 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.size(200.dp)
         )
 
-        if(logginHasError){
-            Spacer(modifier = Modifier.height(35.dp))
-            Text(
-                text = "Usuario/Clave inválida",
-                fontSize = 15.sp,
-                color = MaterialTheme.colorScheme.error
+        Spacer(modifier = Modifier.height(30.dp))
 
-            )
-            Spacer(modifier = Modifier.height(15.dp))
-        } else {
-            Spacer(modifier = Modifier.height(70.dp))
-        }
+        Text(
+            text = "Registrate",
+            fontSize = 30.sp
+        )
+
+        Spacer(modifier = Modifier.height(30.dp))
 
         CustomInputLabelComponent(
             label = "Usuario",
-            placeholder = "Ingresa tu usuario",
+            placeholder = "Ingresa un usuario",
             value = username,
-            hasError = logginHasError,
+            hasError = usernameHasError,
+            errorText = "*Debe contener al menos 8 caracteres",
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
             ),
-            onvValueChange = {
-                username = it
-                logginHasError = false
-            }
+            onvValueChange = {username = it}
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(5.dp))
 
         CustomInputLabelComponent(
             label = "Contraseña",
-            placeholder = "Ingresa tu contraseña",
+            placeholder = "Ingresa una contraseña",
             value = password,
-            hasError = logginHasError,
+            hasError = invalidPassword,
+            errorText = invalidPasswordMessage,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Next
             ),
-            onvValueChange = {
-                password = it
-                logginHasError = false
-            }
+            onvValueChange = {password = it}
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(10.dp))
+
+        CustomInputLabelComponent(
+            label = "Confirmar contraseña",
+            placeholder = "Ingrese de nuevo la contraseña",
+            value = passwordConfirm,
+            hasError = invalidPasswordConfirm,
+            errorText = "Las contraseñas no coinciden",
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Next
+            ),
+            onvValueChange = {passwordConfirm = it}
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            enabled = username != "" && password != "",
             onClick = {
-                logginHasError = checkCredentials(credentials, username, password)
-                if(!logginHasError){
-                    val intent = Intent(context, HomeActivity::class.java)
-                    intent.putExtra("USERNAME", username)
-                    context.startActivity(intent)
-                }
+                saveUser(context, username, password)
+                val intent = Intent(context, HomeActivity::class.java)
+                intent.putExtra("username", username)
+                context.startActivity(intent)
             },
+            enabled = buttonEnabled,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Ingresar")
+            Text("Registrarse")
         }
+
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
+            horizontalArrangement = Arrangement.Start
         ) {
             Text(
-                text = "Registrarme",
+                text = "Ya cuento con un usuario",
                 style = TextStyle(
                     textDecoration = TextDecoration.Underline,
                     color = MaterialTheme.colorScheme.primary
                 ),
                 modifier = Modifier
-                    .clickable {  navController.navigate("register") }
+                    .clickable {  navController.navigate("login") }
                     .padding(8.dp)
             )
         }
     }
 }
 
-fun checkCredentials(credentials: String, user: String, password: String): Boolean {
-    val credentialsArray = credentials.split(":")
-    return credentialsArray[0] != user || credentialsArray[1] != password
+fun saveUser(context: Context, username: String, password: String){
+    val sharedPreferences = context.getSharedPreferences("byteJorge", Context.MODE_PRIVATE)
+    sharedPreferences.edit().putString(username, "$username:$password").apply()
 }
