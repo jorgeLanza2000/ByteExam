@@ -16,31 +16,6 @@ import com.gtbyte.jorgeLanza.home.api.HomeViewModel
 
 @Composable
 fun CardList(innerPadding: PaddingValues, viewModel: HomeViewModel = viewModel()) {
-    val users by viewModel.users.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
-    if(isLoading){
-        Column(
-            modifier = Modifier.fillMaxSize().padding((innerPadding))
-        ) {
-            Text(
-                text = "Cargando"
-            )
-            Text(
-                text = "Cargando"
-            )
-            Text(
-                text = "Cargando"
-            )
-        }
-    } else {
-        LazyColumn(
-            contentPadding = innerPadding,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(users) { user ->
-                Text(user.name)
-            }
-        }
-    }
+
 
 }

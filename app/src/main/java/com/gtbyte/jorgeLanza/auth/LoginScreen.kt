@@ -114,7 +114,7 @@ fun LoginScreen(navController: NavController) {
                 logginHasError = checkCredentials(credentials, username, password)
                 if(!logginHasError){
                     val intent = Intent(context, HomeActivity::class.java)
-                    intent.putExtra("username", username)
+                    intent.putExtra("USERNAME", username)
                     context.startActivity(intent)
                 }
             },
