@@ -3,6 +3,7 @@ package com.gtbyte.jorgeLanza.home.components
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +25,17 @@ class DonutListFragment : Fragment(R.layout.fragment_donut_list) {
         val recycler = view.findViewById<RecyclerView>(R.id.recyclerDonuts)
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
-        adapter = DonutAdapter()
+        adapter = DonutAdapter({donut ->
+
+            val fragment = DonutDetailFragment.newInstance(donut)
+
+            requireActivity()
+                .supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null)
+                .commit()
+        })
 
         recycler.layoutManager = LinearLayoutManager(requireContext())
         recycler.adapter = adapter

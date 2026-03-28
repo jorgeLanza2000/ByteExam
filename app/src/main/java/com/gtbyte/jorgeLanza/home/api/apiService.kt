@@ -4,12 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.gtbyte.jorgeLanza.R
+import com.gtbyte.jorgeLanza.home.components.DonutDetailFragment
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -53,7 +55,7 @@ class HomeViewModel : ViewModel() {
     }
 }
 
-class DonutAdapter : RecyclerView.Adapter<DonutAdapter.ViewHolder>() {
+class DonutAdapter(private val onClick: (DonutDb) -> Unit) : RecyclerView.Adapter<DonutAdapter.ViewHolder>() {
 
     private var items: List<DonutDb> = emptyList()
 
@@ -66,6 +68,7 @@ class DonutAdapter : RecyclerView.Adapter<DonutAdapter.ViewHolder>() {
         val tvTitle: TextView = view.findViewById(R.id.tvTitle)
         val tvSubtitle: TextView = view.findViewById(R.id.tvSubtitle)
         val tvPPU: TextView = view.findViewById(R.id.tvPPU)
+        val btnDetalle: TextView = view.findViewById(R.id.btnAction)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -76,10 +79,23 @@ class DonutAdapter : RecyclerView.Adapter<DonutAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val donut = items[position]
+
+        holder.tvTitle.text = donut.name
+        holder.tvSubtitle.text = holder.itemView.context
+            .getString(R.string.donut_label_tipo, donut.type)
+        holder.tvPPU.text = holder.itemView.context
+            .getString(R.string.donut_label_ppu, donut.ppu)
+        holder.btnDetalle.setOnClickListener {
+            onClick(donut)
+        }
+    }
+
+    /*override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val donut = items[position]
         holder.tvTitle.text = donut.name
         holder.tvSubtitle.text = holder.itemView.context.getString(R.string.donut_label_tipo, donut.type)
         holder.tvPPU.text = holder.itemView.context.getString(R.string.donut_label_ppu, donut.ppu)
-    }
+    }*/
 
     override fun getItemCount() = items.size
 }
