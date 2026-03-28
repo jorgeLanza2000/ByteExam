@@ -1,7 +1,6 @@
 package com.gtbyte.jorgeLanza.auth.presentation.register
 
 import android.content.Context
-import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,7 +35,6 @@ import androidx.navigation.NavController
 import com.gtbyte.jorgeLanza.R
 import com.gtbyte.jorgeLanza.auth.domain.navigateHomeWithUsername
 import com.gtbyte.jorgeLanza.auth.presentation.common.components.CustomInputLabelComponent
-import com.gtbyte.jorgeLanza.home.HomeActivity
 
 @Composable
 fun RegisterScreen(navController: NavController) {
