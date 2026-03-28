@@ -1,20 +1,29 @@
 package com.gtbyte.jorgeLanza.home
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.gtbyte.jorgeLanza.R
+import com.gtbyte.jorgeLanza.auth.LoginActivity
 
 
 class HomeActivity : ComponentActivity() {
-
     private var dialogShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        val btnNext = findViewById<ImageButton>(R.id.btnNext)
+
+        btnNext.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onStart() {
