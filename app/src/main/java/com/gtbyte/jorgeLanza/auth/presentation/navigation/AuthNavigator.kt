@@ -8,7 +8,7 @@ import com.gtbyte.jorgeLanza.auth.presentation.login.LoginScreen
 import com.gtbyte.jorgeLanza.auth.presentation.register.RegisterScreen
 
 @Composable
-fun AppNavGraph() {
+fun AuthNavigator() {
     val navController = rememberNavController()
 
     NavHost(

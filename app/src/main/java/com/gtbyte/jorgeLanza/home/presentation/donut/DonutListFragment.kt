@@ -25,7 +25,7 @@ class DonutListFragment : Fragment(R.layout.fragment_donut_list) {
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
         adapter = DonutAdapter(fun(donut: DonutDto) {
-            val fragment = DonutDetailFragment.Companion.newInstance(donut)
+            val fragment = DonutDetailFragment.newInstance(donut)
 
             requireActivity()
                 .supportFragmentManager
