@@ -21,6 +21,17 @@ class DonutListFragment : Fragment(R.layout.fragment_donut_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        adapter = DonutAdapter(fun(donut: DonutDto) {
+            val fragment = DonutDetailFragment.newInstance(donut)
+
+            requireActivity()
+                .supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null)
+                .commit()
+        })
+
         val recycler = view.findViewById<RecyclerView>(R.id.recyclerDonuts)
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
@@ -35,15 +46,5 @@ class DonutListFragment : Fragment(R.layout.fragment_donut_list) {
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
-        adapter = DonutAdapter(fun(donut: DonutDto) {
-            val fragment = DonutDetailFragment.newInstance(donut)
-
-            requireActivity()
-                .supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, fragment)
-                .addToBackStack(null)
-                .commit()
-        })
     }
 }
