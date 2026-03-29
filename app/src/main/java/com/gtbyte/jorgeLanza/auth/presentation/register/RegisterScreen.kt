@@ -58,7 +58,7 @@ fun RegisterScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
-            .padding(start = 20.dp, end = 20.dp, top = 60.dp),
+            .padding(start = 20.dp, end = 20.dp, top = 60.dp, bottom = 40.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
