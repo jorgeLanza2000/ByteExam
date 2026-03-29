@@ -1,9 +1,14 @@
 <resources>
     <string name="app_name">ByteAplication</string>
+    <string name="company_name">Byte Company</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="bienvenido">Bienvenido de vuelta</string>
-    <string name="donut_label_ppu">No. ppu: %1$s</string>
+    <string name="donut_label_ppu">No. ppu: %1$.2f</string>
     <string name="donut_label_tipo">Tipo: %1$s</string>
     <string name="donut_label_btn">Ver detalle</string>
+    <string name="donut_label_btn_detail">Volver</string>
+    <string name="donut_label_batters_detail">Batters</string>
+    <string name="donut_label_toppings_detail">Toppings</string>
+    <string name="donut_label_list_detail">• %1$s</string>
 </resources>

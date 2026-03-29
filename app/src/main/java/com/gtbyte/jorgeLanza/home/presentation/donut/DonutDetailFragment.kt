@@ -31,17 +31,17 @@ class DonutDetailFragment : Fragment(R.layout.fragment_donut_detail) {
         val toppings = arguments?.getStringArrayList("toppings") ?: arrayListOf()
 
         tvName.text = name
-        tvPpu.text = "No. ppu: $ppu"
+        tvPpu.text = getString(R.string.donut_label_ppu, ppu)
 
         batters.forEach {
             val textView = TextView(requireContext())
-            textView.text = "• $it"
+            textView.text = getString(R.string.donut_label_list_detail, it)
             layoutBatters.addView(textView)
         }
 
         toppings.forEach {
             val textView = TextView(requireContext())
-            textView.text = "• $it"
+            textView.text = getString(R.string.donut_label_list_detail, it)
             layoutToppings.addView(textView)
         }
     }
